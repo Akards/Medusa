@@ -1,5 +1,5 @@
-####  Medusa
+#  Medusa
 
-# _A python library of common, parallel algorithms_
+## _A python library of common, parallel algorithms_
 
-# Table of Contents
+### Table of Contents
