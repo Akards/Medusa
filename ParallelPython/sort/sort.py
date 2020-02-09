@@ -1,4 +1,4 @@
-from abc import ABC
+import abc
 
 class Sort(metaclass=abc.ABCMeta):
 	pass
