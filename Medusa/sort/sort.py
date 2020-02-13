@@ -1,13 +1,22 @@
 import abc
+import multiprocessing
+
 
 class Sort(metaclass=abc.ABCMeta):
-	@abstractmethod
-	def sort(self):
-            pass
+    def __init__(self, array, up):
+        self.items = array
+        self.order = up
 
-	def recurse(self):
-            self.sort(self) #not overriding this will result in sequential execution
+    @abc.abstractmethod
+    def sort(self):
+        pass
 
-    print("Hello")
+    items = []  # should be in the form (item, int place)
+    order = True
 
-	items = [] #should be in the form (item, int place)
+def main():
+    pass
+
+
+if __name__ == '__main__':
+    main()
