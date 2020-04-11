@@ -1,8 +1,7 @@
 import random
 import math
 import multiprocessing as mp
-import os
-from sort import Sort
+#from sort import Sort
 
 class BitonicSort(Sort):
     def __init__(self, array, up, proc_num):
@@ -32,10 +31,11 @@ class BitonicSort(Sort):
         """
         arr_size = len(self.items)
         slice_size = arr_size//self.p
-        depth = int(math.log2(arr_size))
         q = mp.Queue()
         proc_arr = []
 
+        if arr_size == 0:
+            return []
         # Spawn all necessary processors running merge sequentially on
         # different slices
         for i in range(len(self.proc_names)):
@@ -53,18 +53,18 @@ class BitonicSort(Sort):
             proc_arr[i].join()
 
         # Merges the results from each individual process
-        a = []
-        proc = self.p//2
+        proc_num = self.p//2
         proc_arr.clear()
-        while slice_size != arr_size:
-            for proc in range(proc):
+        while proc_num > 0:
+            for proc in range(proc_num):
                 A = q.get()
                 B = q.get()
                 p = mp.Process(target=self.merge, args=(A, B, q))
                 proc_arr.append(p)
                 p.start()
             slice_size *= 2
-            proc = proc // 2
+            proc_num = proc_num // 2
+            print("This is the total number of procs", proc_num)
             for i in range(len(proc_arr)):
                 proc_arr[i].join()
             proc_arr.clear()
@@ -77,12 +77,22 @@ class BitonicSort(Sort):
         print("="*60)
         print("This is A", A)
         print("This is B", B)
-        C = []
-        while A or B:
-            if A and B and (A[0] < B[0]) == self.order:
-                C.append(A.pop(0))
-            elif B:
-                C.append(B.pop(0))
+        C = [] # List to be populated with values from A and B
+        j, k = 0, 0
+        for i in range(size*2):
+            if (A[j] < B[k]) == self.order:
+                C.append(A[j])
+                j += 1
+                if j == size:
+                    C += B[k:]
+                    break
+            else:
+                C.append(B[k])
+                k += 1
+                if k == size:
+                    C += A[j:]
+                    break
+
         print("This is C", C)
         print("="*60)
         q.put(C)
@@ -90,15 +100,11 @@ class BitonicSort(Sort):
 
     def seq_bitonic_sort(self, A, up, q):
         if len(A) <= 1:
-            print("A =", A, "has length of 1")
+            q.put(A)
             return A
         else:
-            print("Passing", A[:len(A)//2], "to sort left")
             left = self.seq_bitonic_sort(A[:len(A) // 2], True, q)
-            print("Passing", A[len(A)//2:], "to sort right")
             right = self.seq_bitonic_sort(A[len(A) // 2:], False, q)
-            print(mp.current_process().name, "left is: ", left)
-            print(mp.current_process().name, "right is:", right)
             A = self.seq_merge(left+right, up)
             if len(A) == self.size/self.p:
                 q.put(A)
@@ -136,28 +142,12 @@ def is_ordered(A):
             return False
     return True
 
+# Tests
 def main():
-    """
-    for list_size in range(4, 17):
-        print("Lists of size {}".format(list_size))
-        pos = 0
-        neg = 0
-        for i in range(10):
-            A = [random.randint(0, 100) for i in range(list_size)]
-            Q = BitonicSort(A, True, 2);
-            Q.sort()
-            if is_ordered(Q.items):
-                pos += 1
-            else:
-                neg += 1
-        print("There were {} positive results".format(pos))
-        print("There were {} negative results".format(neg))
-        print("="*30+"\n")
-    """
-    A = [random.randint(0, 100) for i in range(16)]
+    A = [random.randint(0, 100) for i in range(8)]
     print(A)
     print("="* 60)
-    Q = BitonicSort(A, True, 4)
+    Q = BitonicSort(A, True, 8)
     print(Q.sort())
 
 if __name__ == '__main__':
