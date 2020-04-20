@@ -10,7 +10,7 @@ class Merge():
         self.arr_of_a = []
         self.arr_of_q = []
 
-    def start(self):
+    def begin_merge(self):
         '''
         Merge sort driver function.
 
@@ -107,7 +107,6 @@ class Merge():
         elif len(a) == 1 and size == 1:
             q.put(a)
 
-    # kwargs = {q, size}
     def merge(self, a, left, right, **kwargs):
         '''
         Each process merges subarrays until it has its original subarray sorted
@@ -207,7 +206,7 @@ def main():
     num_p = 4
 
     merge = Merge(a, num_p)
-    sorted_a = merge.start()
+    sorted_a = merge.begin_merge()
     print("Sorted List: {}".format(sorted_a))
 
 if __name__ == "__main__":

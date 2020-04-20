@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 import unittest
-import filecmp
-import sys
-import os
-import math
-import Medusa.sort
-from Medusa.sort.Par_BitonicSort import *
+import Medusa.Sort
+from random import shuffle
+from Medusa.Sort.BitonicSort import *
 
 class TestBitonicSort(unittest.TestCase):
     @classmethod
