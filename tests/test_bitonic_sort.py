@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import unittest
+import os
+import math
 import Medusa.Sort
 from random import shuffle
 from Medusa.Sort.BitonicSort import *
