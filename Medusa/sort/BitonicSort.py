@@ -2,6 +2,7 @@ import random
 import math
 import multiprocessing as mp
 #from sort import Sort
+from Medusa.sort import Sort
 
 class BitonicSort(Sort):
     def __init__(self, array, up, proc_num):
@@ -22,9 +23,9 @@ class BitonicSort(Sort):
         Bitonic sort. Parallel sort algorithm that runs in O(log^2(n))
 
         Args:
-            array: the list to be sorted
-            up: if True list is sorted in ascending order, if False list is
-            sorted in descending order
+            array (int[]): the list to be sorted
+            up     (bool): if True list is sorted in ascending order, if False list is
+                           sorted in descending order
 
         Returns:
             A sorted sequence of numbers.
@@ -59,6 +60,7 @@ class BitonicSort(Sort):
             for proc in range(proc_num):
                 A = q.get()
                 B = q.get()
+                print("A = {} and B = {} from queue".format(A, B))
                 p = mp.Process(target=self.merge, args=(A, B, q))
                 proc_arr.append(p)
                 p.start()
@@ -100,7 +102,8 @@ class BitonicSort(Sort):
 
     def seq_bitonic_sort(self, A, up, q):
         if len(A) <= 1:
-            q.put(A)
+            if self.size == self.p:
+                q.put(A)
             return A
         else:
             left = self.seq_bitonic_sort(A[:len(A) // 2], True, q)
@@ -142,9 +145,8 @@ def is_ordered(A):
             return False
     return True
 
-# Tests
 def main():
-    A = [random.randint(0, 100) for i in range(8)]
+    A = [random.randint(0, 100) for i in range(128)]
     print(A)
     print("="* 60)
     Q = BitonicSort(A, True, 8)
