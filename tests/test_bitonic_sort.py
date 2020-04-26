@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import unittest
-import Medusa.sort
+import Medusa.Sort
 from random import shuffle
-from Medusa.sort.BitonicSort import *
+from Medusa.Sort.BitonicSort import *
 
 class TestBitonicSort(unittest.TestCase):
     def test_empty_list(self):

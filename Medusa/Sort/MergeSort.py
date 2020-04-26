@@ -1,16 +1,19 @@
 import multiprocessing as mp
 import os
+from Medusa.Sort import Sort
+#from sort import Sort
 
-class Merge():
-    def __init__(self, a, num_p):
+class Merge(Sort):
+    def __init__(self, a, up, num_p):
         # Initiate variables
-        self.a = a
+        self.items = a
+        self.order = up 
         self.num_p = num_p
         self.procs = []
         self.arr_of_a = []
         self.arr_of_q = []
 
-    def start(self):
+    def sort(self):
         '''
         Merge sort driver function.
 
@@ -18,20 +21,30 @@ class Merge():
             N/A
 
         Returns:
-            A sorted version of array self.a
+            A sorted version of array self.items
         '''
 
-        div = len(self.a) // self.num_p
+        div = len(self.items) // self.num_p
         q = mp.Queue()
+        
+        # Save work
+        if len(self.items) == 0 or len(self.items) == 1:
+            return self.items
+    
+        # Save more work
+        if self.num_p == 1:
+            self.merge_sort(self.items, q, len(self.items))
+            self.items = q.get()
+            return self.items
 
-        #print("Original Array: {}".format(self.a))
+        #print("Original Array: {}".format(self.items))
 
         # Divide array among processes
-    	for i in range(self.num_p):
-            self.arr_of_a.append(self.a[i*div:(i+1)*div])
-    	# Add any remaining elements to the end of the last process's subarray
-    	if len(self.a) % self.num_p != 0:
-            self.arr_of_a[self.num_p-1].extend(self.a[div*self.num_p:])
+        for i in range(self.num_p):
+            self.arr_of_a.append(self.items[i*div:(i+1)*div])
+        # Add any remaining elements to the end of the last process's subarray
+        if len(self.items) % self.num_p != 0:
+            self.arr_of_a[self.num_p-1].extend(self.items[div*self.num_p:])
         
         #print("Arr_of_a: {}".format(self.arr_of_a))
 
@@ -50,16 +63,18 @@ class Merge():
         for i in range(len(self.arr_of_a)):
             self.arr_of_a[i] = q.get()
 
+        #print("New arr_of_a: {}".format(self.arr_of_a))
+        
         # If there is only 1 process, the array is already fully sorted
         if self.num_p == 1:
-            self.a = q.get()
-            return self.a
+            self.items = q.get()
+            return self.items
         
         # Now merge sorted sublists
         self.procs = []
         #arr_of_q = []
         q_index = -1
-        size = len(self.a)
+        size = len(self.items)
         for p in range(self.num_p):
             if (p % 2 == 0):
                 q2 = mp.Queue()
@@ -73,8 +88,8 @@ class Merge():
         for p in self.procs:
             p.join()
 
-        self.a = self.arr_of_q[0].get()
-        return self.a
+        self.items = self.arr_of_q[0].get()
+        return self.items
 
     def merge_sort(self, a, q, size):
         '''
@@ -107,7 +122,6 @@ class Merge():
         elif len(a) == 1 and size == 1:
             q.put(a)
 
-    # kwargs = {q, size}
     def merge(self, a, left, right, **kwargs):
         '''
         Each process merges subarrays until it has its original subarray sorted
@@ -116,6 +130,7 @@ class Merge():
             a: unsorted array that will be overwritten to hold the fully sorted array
             left: left subarray to merge
             right: right subarray to merge
+            self.order: if true, sort array in ascending order, else in descending order
             q (optional): queue that processes will use to store their sorted subarray a
             size (optional): size of process's original subarray before it was divided up 
 
@@ -130,7 +145,7 @@ class Merge():
 
         # Merge together
         while i < len(left) and j < len(right):
-            if left[i] < right[j]:
+            if (left[i] < right[j]) == self.order:
                 a[k] = left[i]
                 i += 1
             else:
@@ -156,8 +171,8 @@ class Merge():
     
     def final_merge(self, a, num_p, proc_id, queues, q_index, size):
         '''
-        Once each process has merged its assigned subarray, odd processes will merge their
-        subarray with a partner even process's subarray until process 1 has fully sorted array
+        Once each process has sorted its assigned subarray, odd processes will merge their
+        subarray with an even partner process's subarray until process 1 has fully sorted array
 
         Args:
             a: a process's subarray that is to be merged
@@ -175,6 +190,7 @@ class Merge():
             # Handle edge case when there is an odd # of processes for merging last ranked proc
             if num_p % 2 != 0:
                 if proc_id == num_p - 1:
+                    #print("Process {} waiting until num_p ({}) is even".format(proc_id, num_p))
                     proc_id = proc_id // 2
                     num_p -= proc_id
                     q_index = proc_id // 2
@@ -196,21 +212,31 @@ class Merge():
                 self.merge(a, left, right)
                 proc_id = proc_id // 2
                 q_index = proc_id // 2
+                #print("Left and Right merged: {}".format(a))
+                # Change num_p to reflect terminated even procs                
+                if num_p % 2 == 0:
+                    num_p = num_p // 2
+                else:
+                    num_p = (num_p // 2) + 1 
+
                 self.final_merge(a, num_p, proc_id, queues, q_index, size)
         else:
             #print("Result after final merge:{}".format(a))
             queues[0].put(a)
-
+'''
 def main():
+    A = [8, 9, 2, 5, 1, 7, 3, 4, 6]
+    B = [8, 6, 2, 4, 1, 3, 5, 7]
     
-    a = [9, 21, 5, 14, 3, 6, 13, 8, 1, 15, 19, 4, 3]
-    num_p = 4
+    merge = Merge(A, True, 1)
+    C = merge.sort()
+    print(C)
 
-    merge = Merge(a, num_p)
-    sorted_a = merge.start()
-    print("Sorted List: {}".format(sorted_a))
+
+
+
+
 
 if __name__ == "__main__":
     main()
-
-
+'''

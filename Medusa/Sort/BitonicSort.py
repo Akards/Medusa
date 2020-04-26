@@ -1,7 +1,7 @@
 import random
 import math
 import multiprocessing as mp
-#from sort import Sort
+from Medusa.Sort import Sort
 
 class BitonicSort(Sort):
     def __init__(self, array, up, proc_num):
@@ -141,14 +141,3 @@ def is_ordered(A):
         if A[i] > A[i+1]:
             return False
     return True
-
-# Tests
-def main():
-    A = [random.randint(0, 100) for i in range(8)]
-    print(A)
-    print("="* 60)
-    Q = BitonicSort(A, True, 8)
-    print(Q.sort())
-
-if __name__ == '__main__':
-    main()

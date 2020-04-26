@@ -1,7 +1,6 @@
 import abc
 import multiprocessing
 
-
 class Sort(metaclass=abc.ABCMeta):
     def __init__(self, array, up):
         self.items = array

@@ -1,5 +1,5 @@
 import unittest
-from Medusa.sort import sort as srt
+from Medusa.Sort import sort as srt
 
 class TestSortingAlgs(unittest.TestCase) {
     @classmethod
