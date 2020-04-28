@@ -1,0 +1,4 @@
+{
+  "tests/test_bitonic_sort.py::TestBitonicSort": true,
+  "tests/test_merge_sort.py::TestMergeSort": true
+}
