@@ -2,8 +2,8 @@
 import unittest
 import os
 import math
-import Medusa.Sort
-from Medusa.Sort.MergeSort import *
+import Medusa.sort
+from Medusa.sort.merge_sort import *
 
 class TestMergeSort(unittest.TestCase):
     @classmethod
@@ -15,25 +15,25 @@ class TestMergeSort(unittest.TestCase):
        merge = Merge(A, True, 1)
        B = merge.sort()
        self.assertEqual(B, [])
-    
+
     def test_even_length_list_sequential_merge_sort(self):
         A = [8, 6, 7, 3, 5, 2, 1, 4]
         merge = Merge(A, True, 1)
         B = merge.sort()
         self.assertEqual(B, [1, 2, 3, 4, 5, 6, 7, 8])
-        
+
     def test_even_length_list_parallel_2_merge_sort(self):
         A = [8, 6, 7, 3, 5, 2, 1, 4]
         merge = Merge(A, True, 2)
         B = merge.sort()
         self.assertEqual(B, [1, 2, 3, 4, 5, 6, 7, 8])
-    
+
     def test_even_length_list_parallel_3_merge_sort(self):
         A = [8, 6, 7, 3, 5, 2, 1, 4]
         merge = Merge(A, True, 3)
         B = merge.sort()
         self.assertEqual(B, [1, 2, 3, 4, 5, 6, 7, 8])
-    
+
     def test_even_length_list_parallel_4_merge_sort(self):
         A = [8, 6, 7, 3, 5, 2, 1, 4]
         merge = Merge(A, True, 4)

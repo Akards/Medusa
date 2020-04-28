@@ -1,7 +1,7 @@
 import multiprocessing as mp
 import os
-from Medusa.Sort import Sort
-#from sort import Sort
+from Medusa.sort import Sort
+#from sort import sort
 
 class Merge(Sort):
     def __init__(self, a, up, num_p):
