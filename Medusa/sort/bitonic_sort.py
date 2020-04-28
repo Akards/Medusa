@@ -42,7 +42,6 @@ class BitonicSort(Sort):
         for i in range(len(self.proc_names)):
             bottom = i*slice_size
             top = (i+1)*slice_size
-            print("My process got:", self.items[bottom:top])
             p = mp.Process(target=self.seq_bitonic_sort,
                            args=(self.items[bottom:top], self.order, q),
                            name=self.proc_names[i])
@@ -60,13 +59,11 @@ class BitonicSort(Sort):
             for proc in range(proc_num):
                 A = q.get()
                 B = q.get()
-                print("A = {} and B = {} from queue".format(A, B))
                 p = mp.Process(target=self.merge, args=(A, B, q))
                 proc_arr.append(p)
                 p.start()
             slice_size *= 2
             proc_num = proc_num // 2
-            print("This is the total number of procs", proc_num)
             for i in range(len(proc_arr)):
                 proc_arr[i].join()
             proc_arr.clear()
@@ -76,9 +73,6 @@ class BitonicSort(Sort):
 
     def merge(self, A, B, q):
         size = len(A)
-        print("="*60)
-        print("This is A", A)
-        print("This is B", B)
         C = [] # List to be populated with values from A and B
         j, k = 0, 0
         for i in range(size*2):
@@ -95,8 +89,6 @@ class BitonicSort(Sort):
                     C += A[j:]
                     break
 
-        print("This is C", C)
-        print("="*60)
         q.put(C)
 
 
@@ -147,8 +139,6 @@ def is_ordered(A):
 
 def main():
     A = [random.randint(0, 100) for i in range(128)]
-    print(A)
-    print("="* 60)
     Q = BitonicSort(A, True, 8)
     print(Q.sort())
 
