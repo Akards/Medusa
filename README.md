@@ -1,40 +1,40 @@
 #  Medusa
-_A python library of common, parallel algorithms_
+_A python library of commonly used, parallel algorithms_
 
 ## Table of Contents
-- [Philosophy](#philosophy)
 - [Overview](#overview)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Philosophy](#philosophy)
 - [Algorithms](#algorithms)
   - [Sorting Algorithms](#sorting)
   - [Matrix Operations](#matrix)
   - [Graph Algorithms](#graphs)
-  
-  
+
+### <a name="overview"></a>Overview
+Medusa is a Python library of common, parallelized algorithms is proposed in order to meet the perceived need of professionals in data-heavy fields for parallel solutions without explicit parallel knowledge and understanding.The collection of algorithms is implemented in Python 3 and requires the multiprocessing package, as well as NumPy and networkx for certain modules. The multiprocessing package allows for parallel implementation over both shared and distributed memory, though Medusa is designed to be run on a distributed memory system.
+
 ### <a name="philosophy"></a>Philosophy
 Medusa is intended for use by scientists and programmers in technical and computational fields, but who may not have a programming background. Medusa is developed in Python using the multiprocessing module in order to parallelize code, which results in slower runtimes compared to other languages, such as C++. Naturally, we come to emphasize ease of use and abstraction over raw speed. Runtime efficiency is, of course, an important trait in parallel code, but is not a priority over simplicity.
 
-### <a name="overview"></a>Overview
+### <a name="installation"></a>Installation
+
+### <a name="usage"></a>Usage
 
 ### <a name="algorithms"></a>Algorithms
-Below, you can find the current classes of algorithms in Medusa.
+Below, you can find the current classes of algorithms in Medusa. Within each subsection, all currently implemented algorithms are listed. Any further documentation can be found on the README files found inside each module.
 #### <b name="sorting"></b>Sorting Algorithms
 Any sorting algorithms are included in the module `Medusa/sort/`.
-
-Currently included:
 - Merge Sort
 - Bitonic Sort
 - Paradis
 
 #### <b name="matrix"></b>Matrix Operations
 Any matrix operations, or linear algebra related algorithms are included in `/Medusa/matrix/`. Matrix operations are implemented using NumPy arrays in order to improve runtime efficiency.
-
-Currently included:
 - Multiplication
 - Addition
 
 #### <b name="graphs"></b>Graph Algorithms
 Any algorithms related to graphs are included in `/Medusa/graphs/`. These are implemented taking into account the use of [networkx](https://networkx.github.io/).
-
-Currently included:
 - Breadth-first search
 - Boruvka's Algorithm
