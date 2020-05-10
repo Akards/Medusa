@@ -41,7 +41,7 @@ def breadth_first_search(G, source, num_p):
         next_frontier = manager.list()
         dist += 1
 
-    nx.set_node_attributes(G, 'distance', node_levels)
+    nx.set_node_attributes(G, node_levels, 'distance')
     print(node_levels)
     #for node in G.nodes:
     #    print("node {} has dist = {}".format(G.nodes[node]['distance']))
