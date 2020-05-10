@@ -19,6 +19,22 @@ Medusa is a Python library of common, parallelized algorithms is proposed in ord
 Medusa is intended for use by scientists and programmers in technical and computational fields, but who may not have a programming background. Medusa is developed in Python using the multiprocessing module in order to parallelize code, which results in slower runtimes compared to other languages, such as C++. Naturally, we come to emphasize ease of use and abstraction over raw speed. Runtime efficiency is, of course, an important trait in parallel code, but is not a priority over simplicity.
 
 ### <a name="installation"></a>Installation
+#### Using conda to create a virtual environment (recommended)
+The recommended method of setting up the required Python environment and dependencies 
+is to use the [conda](https://conda.io/docs/) dependency manager:
+```
+$ conda create -n py36 python=3.6.1           # Create a python3.6 virtual environment
+$ source activate py36                        # Activate the virtual environment
+$ conda install --file requirements.txt       # Install dependencies
+```
+
+#### Installing from source
+```
+$ git clone https://github.com/Akards/Medusa.git     # Clone the repo
+$ cd Medusa                                          # Switch to the MICA root directory
+$ python setup.py install                            # Install MICA from source
+```
+
 
 ### <a name="usage"></a>Usage
 
