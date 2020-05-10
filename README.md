@@ -10,6 +10,7 @@ _A python library of commonly used, parallel algorithms_
   - [Sorting Algorithms](#sorting)
   - [Matrix Operations](#matrix)
   - [Graph Algorithms](#graphs)
+- [Tests](#tests)
 
 ### <a name="overview"></a>Overview
 Medusa is a Python library of common, parallelized algorithms is proposed in order to meet the perceived need of professionals in data-heavy fields for parallel solutions without explicit parallel knowledge and understanding.The collection of algorithms is implemented in Python 3 and requires the multiprocessing package, as well as NumPy and networkx for certain modules. The multiprocessing package allows for parallel implementation over both shared and distributed memory, though Medusa is designed to be run on a distributed memory system.
@@ -38,3 +39,7 @@ Any matrix operations, or linear algebra related algorithms are included in `/Me
 Any algorithms related to graphs are included in `/Medusa/graphs/`. These are implemented taking into account the use of [networkx](https://networkx.github.io/).
 - Breadth-first search
 - Boruvka's Algorithm
+
+### <a name="tests"></a>Testing
+Unit testing for Medusa is implemented using the [pytest](https://docs.pytest.org/en/latest/) package. In order to run all of the tests from the project's root, simply call:
+`python -m pytest`
